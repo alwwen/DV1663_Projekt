@@ -71,6 +71,12 @@ def addGame():
     else:
         print("Game not found in steam.")
 
+def addplayedgame():
+    gamename = input("what game would you like to add?\n")
+    query = "SELECT gameId INTO @game_id from steamdb where name = '{}';".format(gamename)
+    cursor.execute(query)
+    query = "INSERT INTO playednotfinished (gameId) VALUES (@game_id);"
+    cursor.execute(query)
 def showSpecificGame():
     game = input("What game would you like to check out? ")
     query = "SELECT steamdb.name, steamdb.all_reviews, steamdb.original_price from steamdb where steamdb.name = '{}';".format(game)
@@ -87,14 +93,15 @@ def main_loop():
               "2. Show your Wishlist\n" +
               "3. Add game to Wishlist\n" +
               "4. Show your played/bought games\n" +
-              "5. Show how much money you have spent\n" +
-              "6. Search if a specific games exists\n" +
+              "5. Add game to your played list\n" +
+              "6. Show how much money you have spent\n" +
+              "7. Search if a specific games exists\n" +
               "To exit the program type -1")
         try:
             choice = int(input("Which option do you want to use? \n"+":"))
         except:
             print("You can only chose integers, please try again")
-        if((choice > 6 or choice < -1)):
+        if((choice > 7 or choice < -1)):
                 if(isinstance(choice, int)):
                     print("please choos a value between 1-6")
         if(choice == 1):
@@ -105,9 +112,11 @@ def main_loop():
             addGame()
         if(choice == 4):
             showPlayedGames()
-        if(choice == 5):
-            showMoneySpent()
+        if (choice == 5):
+            addplayedgame()
         if(choice == 6):
+            showMoneySpent()
+        if(choice == 7):
             showSpecificGame()
     print("Have a good day!")
 
