@@ -3,8 +3,8 @@ import mysql.connector
 connection = mysql.connector.connect(
     host="127.0.0.1",
     user="root",
-    password="qwerty",
-    database="inlämninguppgift")
+    password="Qwerty123",
+    database="projekt")
 cursor = connection.cursor()
 
 def get_matching_genre(genres):
@@ -28,11 +28,12 @@ def findgenre():
 
     # Print the matching tables
     if matching_genre:
-        print("Matching Tables:")
+        print("Games matching with the genre {}:".format(genres_input))
         for table in matching_genre:
-            print(table[1])
+            print(table[1])  
     else:
-        print("No matching tables found.")
+        print("No games found for that genre.")
+    print("\n")
 
 def showWishlist():
     query = "SELECT wishlist.gameId, steamdb.name, steamdb.all_reviews ,steamdb.original_price from wishlist left join steamdb on wishlist.gameId = steamdb.gameId;"
@@ -55,7 +56,7 @@ def showMoneySpent():
     cursor.execute(query)
     answers = cursor.fetchall()
     for row in answers:
-        print(row[0])
+        print("\nYou have spent",round(row[0], 2), "USD\n")
 
 def addGame():
     gamename = input("what game would you like to add?\n")
@@ -65,10 +66,18 @@ def addGame():
 
     if output[0][0] == "game found and added.":
         print("Game successfully added to wishlist.")
-    elif output[0][0] == "Keyword already exists.":
+    elif output[0][0] == "game already exists.":
         print("That game is already in your wishlist.")
     else:
         print("Game not found in steam.")
+
+def showSpecificGame():
+    game = input("What game would you like to check out? ")
+    query = "SELECT steamdb.name, steamdb.all_reviews, steamdb.original_price from steamdb where steamdb.name = '{}';".format(game)
+    cursor.execute(query)
+    answers = cursor.fetchall()
+    for row in answers:
+        print(row[0], row[1], row[2])
 
 def main_loop():
     choice = 0
@@ -78,6 +87,7 @@ def main_loop():
               "3. Add game to Wishlist\n" +
               "4. Show your played/bought games\n" +
               "5. Show how much money you have spent\n" +
+              "6. Search if a specific games exists\n" +
               "To exit the program type -1")
         choice = int(input("Which option do you want to use? \n"+":"))
         if(choice == 1):
@@ -90,6 +100,8 @@ def main_loop():
             showPlayedGames()
         if(choice == 5):
             showMoneySpent()
+        if(choice == 6):
+            showSpecificGame()
 
 
     print("Have a good day!")
