@@ -30,7 +30,7 @@ def findgenre():
     if matching_genre:
         print("Games matching with the genre {}:".format(genres_input))
         for table in matching_genre:
-            print(table[1])
+            print(table[1]+"\n")
     else:
         print("No games found for that genre.")
     print("\n")
@@ -39,8 +39,9 @@ def showWishlist():
     query = "SELECT wishlist.gameId, steamdb.name, steamdb.all_reviews ,steamdb.original_price from wishlist left join steamdb on wishlist.gameId = steamdb.gameId;"
     cursor.execute(query)
     answers = cursor.fetchall()
+    print("In your wishlist you have:\n")
     for row in answers:
-        print("In your wishlist you have:\n"+"{} - ${} - {}".format(row[1],row[3],row[2]))
+        print("{} - ${} - {}\n".format(row[1],row[3],row[2]))
 
 
 def showPlayedGames():
@@ -48,7 +49,7 @@ def showPlayedGames():
     cursor.execute(query)
     answers = cursor.fetchall()
     for row in answers:
-        print(row[1]," - ", row[2])
+        print(row[1]," - ", row[2],"\n")
 
 
 def showMoneySpent():
