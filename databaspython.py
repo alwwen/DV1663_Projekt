@@ -103,20 +103,14 @@ def main_loop():
                 showMoneySpent()
             if(choice == 6):
                 showSpecificGame()
-            if(isinstance(choice, int)):
-                if((choice > 6 or choice < -1)):
+            if((choice > 6 or choice < -1)):
                     print("please choos a value between 1-6")
         except:
             print("You can only chose integers, please try again")
     print("Have a good day!")
 
 
-
 main_loop()
-
-
-
-
 
 #end conection
 cursor.close()
