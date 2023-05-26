@@ -35,24 +35,46 @@ def findgenre():
         print("No matching tables found.")
 
 def showWishlist():
-    query = "SELECT wishlist.gameId, steamdb.name, steamdb.original_price from wishlist left join steamdb on wishlist.gameId = steamdb.gameId;"
+    query = "SELECT wishlist.gameId, steamdb.name, steamdb.all_reviews ,steamdb.original_price from wishlist left join steamdb on wishlist.gameId = steamdb.gameId;"
     cursor.execute(query)
     answers = cursor.fetchall()
     for row in answers:
         print(row[1], row[2])
     
 
+def showPlayedGames():
+    query = "SELECT playednotfinished.gameId, steamdb.name, steamdb.genre from playednotfinished left join steamdb on playednotfinished.gameId = steamdb.gameId;"
+    cursor.execute(query)
+    answers = cursor.fetchall()
+    for row in answers:
+        print(row[1], row[2])
+
+
+def showMoneySpent():
+    query = "SELECT SUM(steamdb.original_price) from playednotfinished left join steamdb on playednotfinished.gameId = steamdb.gameId;"
+    cursor.execute(query)
+    answers = cursor.fetchall()
+    for row in answers:
+        print(row[0])
+
+
 def main_loop():
     choice = 0
     while choice != -1:
         print("1. Search for games with specific genre\n" +
-              "2.Whatever shit!\n" +
+              "2. Show your Wishlist\n" +
+              "3. Show your played/bought games\n" +
+              "4. Show how much money you have spent\n" +
               "To exit the program type -1")
         choice = int(input("Which option do you want to use? "))
         if(choice == 1):
             findgenre()
         if(choice == 2):
             showWishlist()
+        if(choice == 3):
+            showPlayedGames()
+        if(choice == 4):
+            showMoneySpent()
 
     print("Have a good day!")
     
