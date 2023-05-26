@@ -1,24 +1,42 @@
 import mysql.connector
 
-cnx = mysql.connector.connect(user='root', password='qwerty',
-                              host='127.0.0.1',
-                              database='inlämninguppgift')
+def get_matching_genre(genres):
+    #establish conection
+    connection = mysql.connector.connect(
+        host="127.0.0.1",
+        user="root",
+        password="qwerty",
+        database="inlämninguppgift")
+    cursor = connection.cursor()
 
-genres = input("Enter genres (comma-separated): ").split(",")
+    #we select every genre and loop throue it to execute the command
+    query = "select * from steeeeeeam where genre LIKE '%{}%'".format(genres[0])
+    for genre in genres[1:]:
+        query += " AND genre LIKE '%{}%'".format(genre)
 
-# Prepare the SQL query
-placeholders = ", ".join(["%s"] * len(genres))
-query = "SELECT * FROM steeeeeeam WHERE genre IN ({})".format(placeholders)
+    cursor.execute(query)
+    matching_genre = cursor.fetchall()
 
-# Execute the query
-cursor = cnx.cursor()
-cursor.execute(query, genres)
+    #end conection
+    cursor.close()
+    connection.close()
 
-# Fetch and display the results
-results = cursor.fetchall()
-for row in results:
-    print(row)
+    #return the result
+    return matching_genre
+def findgenre():
+    # Prompt the user to enter genres
+    genres_input = input("Enter genres (separated by commas): ")
+    genres = [genre.strip() for genre in genres_input.split(",")]
 
-# Close the cursor and the connection
-cursor.close()
-cnx.close()
+    # Get matching genres
+    matching_genre = get_matching_genre(genres)
+
+    # Print the matching tables
+    if matching_genre:
+        print("Matching Tables:")
+        for table in matching_genre:
+            print(table[0])
+    else:
+        print("No matching tables found.")
+
+findgenre()
