@@ -34,7 +34,22 @@ def findgenre():
     else:
         print("No matching tables found.")
 
-findgenre()
+
+
+def main_loop():
+    choice = 0
+    while choice != -1:
+        print("1. Search for games with specific genre\n" +
+              "2.Whatever shit!\n" +
+              "To exit the program type -1")
+        choice = int(input("Which option do you want to use? "))
+        if(choice == 1):
+            findgenre()
+    print("Have a good day!")
+    
+
+
+main_loop()
 
 
 
