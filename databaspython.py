@@ -34,7 +34,13 @@ def findgenre():
     else:
         print("No matching tables found.")
 
-
+def showWishlist():
+    query = "SELECT wishlist.gameId, steamdb.name, steamdb.original_price from wishlist left join steamdb on wishlist.gameId = steamdb.gameId;"
+    cursor.execute(query)
+    answers = cursor.fetchall()
+    for row in answers:
+        print(row[1], row[2])
+    
 
 def main_loop():
     choice = 0
@@ -45,6 +51,9 @@ def main_loop():
         choice = int(input("Which option do you want to use? "))
         if(choice == 1):
             findgenre()
+        if(choice == 2):
+            showWishlist()
+
     print("Have a good day!")
     
 
