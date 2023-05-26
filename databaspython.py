@@ -3,8 +3,8 @@ import mysql.connector
 connection = mysql.connector.connect(
     host="127.0.0.1",
     user="root",
-    password="Qwerty123",
-    database="projekt")
+    password="qwerty",
+    database="inlämninguppgift")
 cursor = connection.cursor()
 
 def get_matching_genre(genres):
@@ -40,7 +40,7 @@ def showWishlist():
     answers = cursor.fetchall()
     for row in answers:
         print(row[1], row[2])
-    
+
 
 def showPlayedGames():
     query = "SELECT playednotfinished.gameId, steamdb.name, steamdb.genre from playednotfinished left join steamdb on playednotfinished.gameId = steamdb.gameId;"
@@ -57,27 +57,43 @@ def showMoneySpent():
     for row in answers:
         print(row[0])
 
+def addGame():
+    gamename = input("what game would you like to add?\n")
+    cursor.callproc("AddGameToList", [gamename])
+    for result in cursor.stored_results():
+        output = result.fetchall()
+
+    if output[0][0] == "game found and added.":
+        print("Game successfully added to wishlist.")
+    elif output[0][0] == "Keyword already exists.":
+        print("That game is already in your wishlist.")
+    else:
+        print("Game not found in steam.")
 
 def main_loop():
     choice = 0
     while choice != -1:
         print("1. Search for games with specific genre\n" +
               "2. Show your Wishlist\n" +
-              "3. Show your played/bought games\n" +
-              "4. Show how much money you have spent\n" +
+              "3. Add game to Wishlist\n" +
+              "4. Show your played/bought games\n" +
+              "5. Show how much money you have spent\n" +
               "To exit the program type -1")
-        choice = int(input("Which option do you want to use? "))
+        choice = int(input("Which option do you want to use? \n"+":"))
         if(choice == 1):
             findgenre()
         if(choice == 2):
             showWishlist()
-        if(choice == 3):
-            showPlayedGames()
+        if(choice ==3):
+            addGame()
         if(choice == 4):
+            showPlayedGames()
+        if(choice == 5):
             showMoneySpent()
 
+
     print("Have a good day!")
-    
+
 
 
 main_loop()
