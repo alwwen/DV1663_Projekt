@@ -3,8 +3,8 @@ import mysql.connector
 connection = mysql.connector.connect(
     host="127.0.0.1",
     user="root",
-    password="Qwerty123",
-    database="projekt")
+    password="qwerty",
+    database="inlämninguppgift")
 cursor = connection.cursor()
 
 def get_matching_genre(genres):
@@ -30,7 +30,7 @@ def findgenre():
     if matching_genre:
         print("Games matching with the genre {}:".format(genres_input))
         for table in matching_genre:
-            print(table[1])  
+            print(table[1])
     else:
         print("No games found for that genre.")
     print("\n")
@@ -89,21 +89,25 @@ def main_loop():
               "5. Show how much money you have spent\n" +
               "6. Search if a specific games exists\n" +
               "To exit the program type -1")
-        choice = int(input("Which option do you want to use? \n"+":"))
-        if(choice == 1):
-            findgenre()
-        if(choice == 2):
-            showWishlist()
-        if(choice ==3):
-            addGame()
-        if(choice == 4):
-            showPlayedGames()
-        if(choice == 5):
-            showMoneySpent()
-        if(choice == 6):
-            showSpecificGame()
-
-
+        try:
+            choice = int(input("Which option do you want to use? \n"+":"))
+            if(choice == 1):
+                findgenre()
+            if(choice == 2):
+                showWishlist()
+            if(choice ==3):
+                addGame()
+            if(choice == 4):
+                showPlayedGames()
+            if(choice == 5):
+                showMoneySpent()
+            if(choice == 6):
+                showSpecificGame()
+            if(isinstance(choice, int)):
+                if((choice > 6 or choice < -1)):
+                    print("please choos a value between 1-6")
+        except:
+            print("You can only chose integers, please try again")
     print("Have a good day!")
 
 
