@@ -40,7 +40,7 @@ def showWishlist():
     cursor.execute(query)
     answers = cursor.fetchall()
     for row in answers:
-        print(row[1], row[4], row[2])
+        print("In your wishlist you have:\n"+"{} - ${} - {}".format(row[1],row[3],row[2]))
 
 
 def showPlayedGames():
@@ -48,7 +48,7 @@ def showPlayedGames():
     cursor.execute(query)
     answers = cursor.fetchall()
     for row in answers:
-        print(row[1], row[2])
+        print(row[1]," - ", row[2])
 
 
 def showMoneySpent():
@@ -82,6 +82,7 @@ def showSpecificGame():
 def main_loop():
     choice = 0
     while choice != -1:
+        choice = 0
         print("1. Search for games with specific genre\n" +
               "2. Show your Wishlist\n" +
               "3. Add game to Wishlist\n" +
@@ -91,22 +92,23 @@ def main_loop():
               "To exit the program type -1")
         try:
             choice = int(input("Which option do you want to use? \n"+":"))
-            if(choice == 1):
-                findgenre()
-            if(choice == 2):
-                showWishlist()
-            if(choice ==3):
-                addGame()
-            if(choice == 4):
-                showPlayedGames()
-            if(choice == 5):
-                showMoneySpent()
-            if(choice == 6):
-                showSpecificGame()
-            if((choice > 6 or choice < -1)):
-                    print("please choos a value between 1-6")
         except:
             print("You can only chose integers, please try again")
+        if((choice > 6 or choice < -1)):
+                if(isinstance(choice, int)):
+                    print("please choos a value between 1-6")
+        if(choice == 1):
+            findgenre()
+        if(choice == 2):
+            showWishlist()
+        if(choice ==3):
+            addGame()
+        if(choice == 4):
+            showPlayedGames()
+        if(choice == 5):
+            showMoneySpent()
+        if(choice == 6):
+            showSpecificGame()
     print("Have a good day!")
 
 
