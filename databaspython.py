@@ -40,7 +40,7 @@ def showWishlist():
     cursor.execute(query)
     answers = cursor.fetchall()
     for row in answers:
-        print(row[1], row[2])
+        print(row[1], row[4], row[2])
 
 
 def showPlayedGames():
