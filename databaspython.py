@@ -3,8 +3,8 @@ import mysql.connector
 connection = mysql.connector.connect(
     host="127.0.0.1",
     user="root",
-    password="qwerty",
-    database="inlämninguppgift")
+    password="Qwerty123",
+    database="projekt")
 cursor = connection.cursor()
 
 def get_matching_genre(genres):
